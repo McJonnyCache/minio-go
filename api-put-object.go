@@ -104,7 +104,12 @@ func (opts *PutObjectOptions) SetMatchETag(etag string) {
 	if opts.customHeaders == nil {
 		opts.customHeaders = http.Header{}
 	}
-	opts.customHeaders.Set("If-Match", "\""+etag+"\"")
+	switch etag {
+	case "*":
+		opts.customHeaders.Set("If-Match", etag)
+	default:
+		opts.customHeaders.Set("If-Match", "\""+etag+"\"")
+	}
 }
 
 // SetMatchETagExcept if etag does not match while PUT MinIO returns an
@@ -114,7 +119,12 @@ func (opts *PutObjectOptions) SetMatchETagExcept(etag string) {
 	if opts.customHeaders == nil {
 		opts.customHeaders = http.Header{}
 	}
-	opts.customHeaders.Set("If-None-Match", "\""+etag+"\"")
+	switch etag {
+	case "*":
+		opts.customHeaders.Set("If-None-Match", etag)
+	default:
+		opts.customHeaders.Set("If-None-Match", "\""+etag+"\"")
+	}
 }
 
 // getNumThreads - gets the number of threads to be used in the multipart
