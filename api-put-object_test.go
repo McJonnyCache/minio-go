@@ -41,6 +41,7 @@ func TestPutObjectOptionsValidate(t *testing.T) {
 		{"Cache-Control", "blah", false},
 		{"Content-Disposition", "something", false},
 		{"Content-Language", "somelanguage", false},
+		{"If-Match", "\\//", false},
 
 		// Valid metadata names.
 		{"my-custom-header", "blah", true},
@@ -51,6 +52,7 @@ func TestPutObjectOptionsValidate(t *testing.T) {
 		{"It-Is-Fine", "v", true},
 		{"Numbers-098987987-Should-Work", "v", true},
 		{"Crazy-!#$%&'*+-.^_`|~-Should-193832-Be-Fine", "v", true},
+		{"If-None-Match", "*", true},
 	}
 	for i, testCase := range testCases {
 		err := PutObjectOptions{UserMetadata: map[string]string{
